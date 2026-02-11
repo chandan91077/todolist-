@@ -24,6 +24,14 @@ class TodoListForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     """Form for creating Task"""
     
+    todo_list = forms.ModelChoiceField(
+        queryset=TodoList.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+        }),
+        empty_label="----------"
+    )
+    
     class Meta:
         model = Task
         fields = ['title', 'description', 'todo_list']
@@ -36,8 +44,5 @@ class TaskForm(forms.ModelForm):
                 'class': 'form-control',
                 'rows': 3,
                 'placeholder': 'Enter task description (optional)',
-            }),
-            'todo_list': forms.Select(attrs={
-                'class': 'form-control',
             }),
         }

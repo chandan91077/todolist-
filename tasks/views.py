@@ -19,7 +19,28 @@ def create_task(request):
     else:
         form = TaskForm()
     
-    return render(request, 'tasks/create_task.html', {'form': form})
+    return render(request, 'tasks/create_task.html', {'form': form, 'is_edit': False})
+
+
+# Task detail view
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    return render(request, 'tasks/task_detail.html', {'task': task})
+
+
+# Edit task
+def edit_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('tasks:task_detail', task_id=task.id)
+    else:
+        form = TaskForm(instance=task)
+
+    return render(request, 'tasks/create_task.html', {'form': form, 'is_edit': True, 'task': task})
 
 
 # Delete task
