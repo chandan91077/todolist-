@@ -1,0 +1,39 @@
+{% extends "tasks/base.html" %}
+{% block title %}All Tasks{% endblock %}
+{% block content %}
+<h1>All Tasks</h1>
+
+<a href="{% url 'tasks:create_task' %}" class="btn btn-primary mb-3"
+  >Create New Task</a
+>
+
+{% if tasks %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>List</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr>
+      <td>{{ task.title }}</td>
+      <td>{{ task.todo_list.title }}</td>
+      <td>
+        <a
+          href="{% url 'tasks:delete_task' task.id %}"
+          class="btn btn-danger btn-sm"
+          >Delete</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">
+  No tasks yet. <a href="{% url 'tasks:create_task' %}">Create one now!</a>
+</div>
+{% endif %} {% endblock %}
