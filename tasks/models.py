@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class TodoList(models.Model):
@@ -20,9 +21,15 @@ class Task(models.Model):
     description = models.TextField(blank=True, null=True)
     todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     
     class Meta:
         ordering = ['-created_at']
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.title} ({self.todo_list.title})"

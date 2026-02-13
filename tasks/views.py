@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import TodoList, Task
+from .models import  Task
 from .forms import TaskForm
 
 
@@ -23,20 +23,25 @@ def create_task(request):
 
 
 # Task detail view
-def task_detail(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+# def task_detail(request, task_id):
+def task_detail(request, slug):
+    task = get_object_or_404(Task, slug=slug)
+    # task = get_object_or_404(Task, id=task_id)
     return render(request, 'tasks/task_detail.html', {'task': task})
 
 
 # Edit task
-def edit_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+# def edit_task(request, task_id):
+def edit_task(request, slug):
+    task = get_object_or_404(Task, slug=slug)
+    # task = get_object_or_404(Task, id=task_id)
 
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('tasks:task_detail', task_id=task.id)
+            return redirect('tasks:task_detail', slug=task.slug)
+            # return redirect('tasks:task_detail', task_id=task.id)
     else:
         form = TaskForm(instance=task)
 
@@ -44,8 +49,10 @@ def edit_task(request, task_id):
 
 
 # Delete task
-def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+# def delete_task(request, task_id):
+def delete_task(request, slug):
+    task = get_object_or_404(Task, slug=slug)
+    # task = get_object_or_404(Task, id=task_id)
     
     if request.method == 'POST':
         task.delete()

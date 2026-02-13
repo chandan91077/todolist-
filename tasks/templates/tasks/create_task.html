@@ -1,6 +1,5 @@
-{% extends "tasks/base.html" %}
-{% block title %} {% if is_edit %}Edit Task{% else %}Create New Task{% endif %} {% endblock %}
-{% block content %}
+{% extends "tasks/base.html" %} {% block title %}{% if is_edit %}Edit Task{%
+else %}Create New Task{% endif %}{% endblock %} {% block content %}
 <h1>{% if is_edit %}Edit Task{% else %}Create New Task{% endif %}</h1>
 
 <form method="post" class="mt-4">
@@ -21,7 +20,7 @@
     {% if is_edit %}Update{% else %}Create{% endif %}
   </button>
   {% if is_edit %}
-  <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-secondary"
+  <a href="{% url 'tasks:task_detail' task.slug %}" class="btn btn-secondary"
     >Cancel</a
   >
   {% else %}
